@@ -1,59 +1,72 @@
 package converter;
 
 public class Number {
-    public static String decimalToBinary(int nbr) {
-        final StringBuilder ret = new StringBuilder();
+    private static String[] arr = new String[36];
 
-        while (nbr > 0) {
-            ret.append(nbr % 2);
-            nbr /= 2;
-        }
-
-        if (ret.length() == 0) ret.append(0);
-
-        ret.append("b0");
-
-        ret.reverse();
-        return ret.toString();
-    }
-
-    public static String decimalToOctal(int nbr) {
-        final StringBuilder ret = new StringBuilder();
-
-        while (nbr > 0) {
-            ret.append(nbr % 8);
-            nbr /= 8;
-        }
-
-        if (ret.length() == 0) ret.append(0);
-
-        ret.append("0");
-
-        ret.reverse();
-        return ret.toString();
-    }
-
-    public static String decimalToHexadecimal(int nbr) {
-        final StringBuilder ret = new StringBuilder();
-        String[] arr = new String[16];
+    static {
         for (int i = 0; i < 10; i++) {
             arr[i] = Integer.toString(i);
         }
-        for (int i = 10; i <= 15; i++) {
+        for (int i = 10; i < 36; i++) {
             arr[i] = String.valueOf((char) (i + 87));
         }
+    }
+
+    public static String decimalToBinary(int nbr) {
+        return decimalToN(nbr, 2, "0b");
+    }
+
+    public static String decimalToOctal(int nbr) {
+        return decimalToN(nbr, 8, "0");
+    }
+
+    public static String decimalToHexadecimal(int nbr) {
+        return decimalToN(nbr, 16, "0x");
+    }
+
+    public static String decimalToN(int nbr, int N) {
+        return decimalToN(nbr, N, "");
+    }
+
+    public static String decimalToN(int nbr, int N, String prefix) {
+        if (N < 1 || N > 36) return null;
+
+        final StringBuilder ret = new StringBuilder();
 
         while (nbr > 0) {
-            ret.append(arr[nbr % 16]);
-            nbr /= 16;
+            if (N == 1) {
+                ret.append(1);
+                nbr--;
+            } else {
+                ret.append(arr[nbr % N]);
+                nbr /= N;
+            }
         }
 
         if (ret.length() == 0) ret.append(0);
 
-        ret.append("x0");
-
         ret.reverse();
+
+        ret.insert(0, prefix);
         return ret.toString();
+    }
+
+    public static int NToDecimal(String nbrRepresentation, int N) {
+        int ret = 0;
+
+        for (int i = 0; i < nbrRepresentation.length(); i++) {
+            ret += indexInArr(nbrRepresentation.charAt(nbrRepresentation.length() - 1 - i)) * Math.pow(N, i);
+        }
+
+        return ret;
+    }
+
+    private static int indexInArr(char c) {
+        for (int i = 0; i < arr.length; i++) {
+            if (arr[i].charAt(0) == c) return i;
+        }
+
+        return -1;
     }
 
     public static int binaryToDecimal(String binary) {

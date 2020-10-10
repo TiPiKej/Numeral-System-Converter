@@ -5,20 +5,13 @@ import java.util.Scanner;
 public class Main {
     public static void main(String[] args) {
         final Scanner scanner = new Scanner(System.in);
-        final int nbr = scanner.nextInt();
-        final int system = scanner.nextInt();
+        final int srcRadix = Integer.parseInt(scanner.nextLine());
+        final String srcNumber = scanner.nextLine();
+        final int tgRadix = Integer.parseInt(scanner.nextLine());
         scanner.close();
 
-        switch (system) {
-            case 2:
-                System.out.println(Number.decimalToBinary(nbr));
-                break;
-            case 8:
-                System.out.println(Number.decimalToOctal(nbr));
-                break;
-            case 16:
-                System.out.println(Number.decimalToHexadecimal(nbr));
-                break;
-        }
+        int decimal = Number.NToDecimal(srcNumber, srcRadix);
+
+        System.out.println(Number.decimalToN(decimal, tgRadix));
     }
 }
