@@ -10,8 +10,6 @@ public class Main {
         final int tgRadix = Integer.parseInt(scanner.nextLine());
         scanner.close();
 
-        int decimal = Number.NToDecimal(srcNumber, srcRadix);
-
-        System.out.println(Number.decimalToN(decimal, tgRadix));
+        System.out.println(Number.NToN(srcNumber, srcRadix, tgRadix));
     }
 }
